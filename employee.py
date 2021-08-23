@@ -8,7 +8,6 @@ from tkinter import ttk
 
 
 
-
 root=Tk()
 root.geometry("1366x768+60+10")
 root.title("Login")
@@ -60,7 +59,7 @@ def save():
     conn.close()
     employeeID.delete(0,END)
     main.destroy()
-    os.system("admin.py")
+    os.system("employee.py")
 
 
 
@@ -134,43 +133,27 @@ def update():
                        bg="#00bff3", border=0, activebackground="#00bff3", padx=25, pady=10,command=clear)
     clear_btn.place(x=715, y=630)
 
-def delete():
-    if (employeeID.get()==""):
-        messagebox.showinfo("Error","Please select employee")
-    else:
-        root.withdraw()
-        global main1
-        global myimg
-        main1 = Toplevel()
-        main1.geometry("400x150+500+300")
-        main1.title("Remove")
-        main1.resizable(0, 0)
-        main1.iconbitmap('./images/3.ico')
-
-        myimg = ImageTk.PhotoImage(Image.open('./images/delete.png'))
-        Label(main1, image=myimg).pack()
-        Label(main1, text="Do you want to delete Employee?", bg="white", font=('Consolas', 15)).place(x=30, y=40)
-        Button(main1, text='CONFIRM', font=('Consolas', 13),padx=20,cursor="hand2",bg="#687afd", border=0, activebackground="#687afd",
-               command=confirm).place(x=145, y=94)
-
-
-def confirm():
-    global main1
-
-    conn = sqlite3.connect('EmployeeInfo.db')
-    c = conn.cursor()
-    c.execute('DELETE from employees WHERE oid= ' + employeeID.get())
-    print("Deleted successfully")
-
-    conn.commit()
-    conn.close()
-    employeeID.delete(0, END)
-    main1.destroy()
-    os.system("admin.py")
 
 
 
-
+# def search():
+#     # my_tree.delete(0, END)
+#     my_tree.delete(*my_tree.get_children())
+#     conn = sqlite3.connect("EmployeeInfo.db")
+#     c = conn.cursor()
+#     record_id = employeeID.get()
+#     c.execute("SELECT *,oid FROM employees WHERE FullName = ?", (record_id,))
+#     records= c.fetchall()
+#     # for data in rows.get_children():
+#     print(records)
+#
+#     for record in records:
+#         my_tree.insert('', 'end', values=(record))
+#
+#
+#     conn.commit()
+#     conn.close()
+    # pass
 def search():
     record_id = employeeID.get()
     for record in my_tree.get_children():
@@ -189,6 +172,7 @@ def search():
     conn.close()
 
 
+
 def logout():
     root.withdraw()
     os.system("main.py")
@@ -198,10 +182,9 @@ def adding():
 
     addemployee.add()
 
-
 def refresh():
     root.destroy()
-    os.system('admin.py')
+    os.system('employee.py')
 
 
 
@@ -219,14 +202,14 @@ def Exit():
 # -------------------------------------
 
 # image
-myimage=ImageTk.PhotoImage(Image.open('./images/adminmanagement1.png'))
+myimage=ImageTk.PhotoImage(Image.open('./images/empmanagement1.png'))
 Label(image=myimage).pack()
 
 # label
 id_lbl=Label(root,text="Employee ID",font=('Consolas',13),bg="white")
 id_lbl.place(x=120,y=190)
-option_lbl=Label(root,text="Administration Option",font=('Consolas',13),bg="white")
-option_lbl.place(x=130,y=290)
+option_lbl=Label(root,text="Employee Option",font=('Consolas',13),bg="white")
+option_lbl.place(x=155,y=290)
 
 # entry
 employeeID=Entry(root,width=25,border=0,font=('Consolas',13))
@@ -251,14 +234,15 @@ addEmpBTN.place(x=75,y=330)
 updateBTN=Button(root,text="UPDATE EMPLOYEE",font=('Consolas',13),cursor='hand2',
                   bg="#00bff3",border=0,activebackground="#00bff3",padx=85, command = update)
 updateBTN.place(x=65,y=380)
-deleteBTN=Button(root,text="DELETE EMPLOYEE",font=('Consolas',13),cursor='hand2',
-                  bg="#00bff3",border=0,activebackground="#00bff3",padx=85, command = delete)
-deleteBTN.place(x=65,y=432)
-
-
 refreshBTN=Button(root,text="Refresh",font=('Consolas',13),cursor='hand2',
                   bg="#00bff3",border=0,activebackground="#00bff3", command = refresh)
 refreshBTN.place(x=313,y=178)
+
+
+
+# delete_btn=Button(root,text="DELETE EMPLOYEE",font=('Consolas',13),cursor='hand2',
+#                   bg="#00bff3",border=0,activebackground="#00bff3",padx=85)
+# delete_btn.place(x=65,y=435)
 
 exitBTN =Button(root,text="EXIT",font=('Consolas',13),cursor='hand2',
                   bg="#00bff3",border=0,activebackground="#00bff3",padx=16,command = exit)
